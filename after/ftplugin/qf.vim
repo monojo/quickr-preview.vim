@@ -278,5 +278,8 @@ endif
 nnoremap <buffer> <cr> :silent call HandleEnterQuickfix(line("."))<CR>
 " }}
 
+" ZX: use p for preview
+nnoremap <silent> <buffer> p :silent call QFList(line("."))<CR>
+
 call InitializeQuickrPreview()
 
