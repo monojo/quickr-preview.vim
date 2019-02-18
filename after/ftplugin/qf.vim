@@ -86,17 +86,20 @@ if v:version >= 801
     endfunction
 else
     function! GetLatestQfLocList()
-        if !exists('b:qflist') || !exists('b:qfsize')
+        " ZX: disable this cached qflist & qfsize to fix this
+        " bug in my use case: search word without close the qf window.
+        " then it will use the old list and size which lead to error
+        "if !exists('b:qflist') || !exists('b:qfsize')
             " Grab the location list
-            let b:qflist = getloclist(0)
+        let b:qflist = getloclist(0)
+        let b:qfsize = len(b:qflist)
+        " If the location list is empty,
+        " then grab the qiuckfix list
+        if b:qfsize == 0
+            let b:qflist = getqflist()
             let b:qfsize = len(b:qflist)
-            " If the location list is empty,
-            " then grab the qiuckfix list
-            if b:qfsize == 0
-                let b:qflist = getqflist()
-                let b:qfsize = len(b:qflist)
-            endif
         endif
+        "endif
         return 1
     endfunction
 endif
